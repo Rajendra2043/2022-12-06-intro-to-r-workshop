@@ -137,7 +137,8 @@ surveys <- read.csv("data_raw/portal_data_joined.csv")
 #
 # Hint: think about how the commands should be ordered to produce this data frame!
 
-
+f<-survey%>%
+  mutate(hindfoot_cm=hindfoot_cm/10)
 
 #
 # group_by() - collect like things together to allow us to summarise them
@@ -221,16 +222,17 @@ cars_wide <- data.frame (
 #
 #     day  make  qty
 #    +----+-----+----+
-#
-#
+#     sat   tesla   2
+#     sun tesla   63
 #
 #
 
 # tidyr's pivot_longer() can do this for us
 
-# and the reverse 
-
-
+car_long<-cars_wide%>% 
+  pivot_longer(names_to = "make", values_to = "qty" ,col = -day)
+# and the revers
+car_long%>% pivot_wider(names_from = make,values_from = qty)
 # now we can apply to our surveys data
 surveys_long <- surveys %>%
   filter(!is.na(weight)) %>%
